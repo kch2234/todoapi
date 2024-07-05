@@ -2,10 +2,7 @@ package com.cicd.todoapi.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -17,15 +14,22 @@ import java.time.LocalDate;
 public class Todo {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tno;       // 고유번호
-    // many to one 으로 변경
-    private String member;  // 작성자
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;  // 작성자
+
     private String title;   // 할일이름
     private String content; // 할일내용
     private LocalDate dueDate;  // 할일 일정 날짜
-    // many to one 으로 변경
-    private String value;      // 할일 value
-    private String category;    // 할일 카테고리
-    // many to one 으로 변경
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "VALUE")
+    private Value value;      // 할일 value
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CATEGORY")
+    private Category category;    // 할일 카테고리
+
     private String priority;    // 할일 중요도
     private boolean complete;   // 할일 완료 여부
 
@@ -39,10 +43,10 @@ public class Todo {
     public void changeDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
-    public void changeValue(String value) {
+    public void changeValue(Value value) {
         this.value = value;
     }
-    public void changeCategory(String category) {
+    public void changeCategory(Category category) {
         this.category = category;
     }
     public void changePriority(String priority) {

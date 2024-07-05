@@ -1,6 +1,7 @@
 package com.cicd.todoapi.domain;
 
 import lombok.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 //@ToString(exclude = "roleList")
 public class Member {
     @Id
+    private Long id;  // 고유번호
     private String email;  // id는 email
     private String password;
     private String nickname;

@@ -3,7 +3,9 @@ package com.cicd.todoapi.domain;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
@@ -14,6 +16,6 @@ import javax.persistence.Id;
 public class Value {
     @Id
     private String value;
-    // many to one 으로 변경
-    private String member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;
 }
