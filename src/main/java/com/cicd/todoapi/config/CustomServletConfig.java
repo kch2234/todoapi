@@ -3,7 +3,6 @@ package com.cicd.todoapi.config;
 import com.cicd.todoapi.controller.formatter.LocalDateFormatter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -14,7 +13,7 @@ public class CustomServletConfig implements WebMvcConfigurer {
         registry.addFormatter(new LocalDateFormatter());
     }
 
-//     CORS 설정 : 메서드 오버라이딩 -> 시큐리티로 이전
+/*//     CORS 설정 : 메서드 오버라이딩 -> 시큐리티로 이전
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") //CORS 적용할 URL 패턴
@@ -23,4 +22,5 @@ public class CustomServletConfig implements WebMvcConfigurer {
                 .maxAge(300) // 지정한 시간만큼 pre-flight 캐싱
                 .allowedHeaders("Authorization", "Cache-Control", "Content-Type");
     }
+    */
 }
