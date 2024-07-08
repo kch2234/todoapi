@@ -25,19 +25,33 @@ class TodoRepositoryTest {
 
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private ValueRepository valueRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private EntityManager em;
     @Test
     public void testInsert() {
         for (int i = 1; i <= 100; i++) {
+            Member member = Member.builder().email("user" + i + "@test.com").build();
+            Value value = Value.builder().value("value" + i).build();
+            Category category = Category.builder().category("category" + i).build();
+
+            memberRepository.save(member);
+            valueRepository.save(value);
+            categoryRepository.save(category);
+
             Todo todo = Todo.builder()
-                    .member(Member.builder().email("user" + i + "@test.com").build())
+                    .member(member)
                     .title("Todo " + i)
                     .content("Content " + i)
                     .dueDate(LocalDate.of(2024, 12, 31))
-                    .value(Value.builder().value("value" + i).build())
-                    .category(Category.builder().category("category" + i).build())
+                    .value(value)
+                    .category(category)
                     .priority("***")
                     .build();
             todoRepository.save(todo);

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -15,7 +17,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 //@ToString(exclude = "roleList")
 public class Member {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // 고유번호
     private String email;  // 로그인 아읻디는 email
     private String password;
