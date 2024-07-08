@@ -23,6 +23,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             throws IOException, ServletException {
 
         log.info("************************** CustomLoginSuccessHandler");
+
         // * 로그인 성공 -> JSON 문자열로 응답해줄 데이터 생성 -> 응답 *
         // 응답 데이터 생성 -> 사용자 정보
         MemberUserDetail userDetail = (MemberUserDetail) authentication.getPrincipal();
@@ -40,6 +41,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // 응답하기 (응답 메세지를 보내기)
         response.setContentType("application/json; charset=UTF-8"); // 응답데이터 형태 헤더정보추가
+        Map<String, Object> result = Map.of("username", authentication.getName());
         PrintWriter writer = response.getWriter();
         writer.println(jsonStr);
         writer.close();

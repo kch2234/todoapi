@@ -1,9 +1,6 @@
 package com.cicd.todoapi.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +12,9 @@ import javax.persistence.Id;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//@ToString(exclude = "roleList")
+@ToString
 public class Member {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // 고유번호
     private String email;  // 로그인 아읻디는 email

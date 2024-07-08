@@ -37,11 +37,11 @@ class TodoRepositoryTest {
     @Test
     public void testInsert() {
         for (int i = 1; i <= 100; i++) {
-            Member member = Member.builder().email("user" + i + "@test.com").build();
-            Value value = Value.builder().value("value" + i).build();
-            Category category = Category.builder().category("category" + i).build();
+            Member member = Member.builder().id(1L).build();
+            Value value = Value.builder().value("value" + i).member(member).build();
+            Category category = Category.builder().category("category" + i).member(member).build();
 
-            memberRepository.save(member);
+//            memberRepository.save(member);
             valueRepository.save(value);
             categoryRepository.save(category);
 
@@ -52,7 +52,7 @@ class TodoRepositoryTest {
                     .dueDate(LocalDate.of(2024, 12, 31))
                     .value(value)
                     .category(category)
-                    .priority("***")
+                    .priority("중간")
                     .build();
             todoRepository.save(todo);
         }
