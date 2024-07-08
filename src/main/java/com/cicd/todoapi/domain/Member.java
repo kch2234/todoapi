@@ -1,5 +1,6 @@
 package com.cicd.todoapi.domain;
 
+import com.cicd.todoapi.dto.MemberFormDTO;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -39,4 +40,7 @@ public class Member {
     /*public void changeSocial(boolean social) {
         this.social = social;
     }*/
+    public void addRole(Role role) {
+        this.role = role;
+    }
 }

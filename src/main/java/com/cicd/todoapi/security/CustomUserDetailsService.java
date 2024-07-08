@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
-    private final ModelMapper modelMapper;
 
     // email 로 회원 조회 -> MemberDTO(UserDetails 타입)으로 변환 후 리턴
     @Override
@@ -31,7 +30,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 //    List<ProfileImageDTO> profileImageDTOList = new ArrayList<>();  // 프로필 이미지 리스트
 
-        MemberUserDetail userDetail = new MemberUserDetail(member.getId(), member.getEmail(), member.getPassword(), member.getRole());
+        MemberUserDetail userDetail = new MemberUserDetail(member.getId(),
+                member.getEmail(),
+                member.getPassword(),
+                member.getRole());
 //    MemberUserDetail userDetail = modelMapper.map(member, MemberUserDetail.class);
 
         log.info("***** CustomUserDetailsService/loadUserByUsername - memberDTO : {}", userDetail);

@@ -1,5 +1,6 @@
 package com.cicd.todoapi.config;
 
+//import com.cicd.todoapi.security.CustomAuthenticationProvider;
 import com.cicd.todoapi.security.filter.JWTCheckFilter;
 import com.cicd.todoapi.security.handler.CustomAccessDeniedHandler;
 import com.cicd.todoapi.security.handler.CustomLoginFailureHandler;
@@ -8,10 +9,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -41,7 +45,7 @@ public class CustomSecurityConfig {
         http.csrf(csrf -> csrf.disable());
         // * 로그인 설정
         http.formLogin(login -> {
-            login.loginPage("/api/member/login"); // 로그인 경로
+            login.loginPage("/login"); // 로그인 경로
             login.successHandler(new CustomLoginSuccessHandler()); // 로그인 성공시 실행될 로직 클래스
             login.failureHandler(new CustomLoginFailureHandler()); // 로그인 실패시 실행될 로직 클래스
         });
