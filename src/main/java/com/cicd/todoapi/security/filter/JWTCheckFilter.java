@@ -30,21 +30,9 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
         String requestURI = request.getRequestURI();
         log.info("************** JWTCheckFilter - shouldNotFilter : requestURI : {}", requestURI);
-        // /api/member/.. 경로 요청은 필터 체크 X
-        if (requestURI.startsWith("/signup")) {
-            return true;
-        }
-        if (requestURI.startsWith("/login")) {
-            return true;
-        }
-        if (requestURI.startsWith("/api/member/")) {
-            return true;
-        }
-        // 이미지 경로 요청은 필터 체크 X
-        /*if(requestURI.startsWith("")) {
-            return true;
-        }*/
-        return false;
+
+        // 필터 체크 제외 경로
+        return requestURI.startsWith("/signup") || requestURI.startsWith("/login") || requestURI.startsWith("/member/");
     }
 
     // 필터링 로직 작성 (추상메서드)

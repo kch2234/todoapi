@@ -54,6 +54,12 @@ public class MemberServiceImpl implements MemberService{
         return result;
     }
 
+    @Override
+    public MemberFormDTO getMember(String email) {
+        Member result = memberRepository.getMemberByEmail(email);
+        return entityToDto(result);
+    }
+
     // 내부에서만 사용할 메서드 -> private 으로 지정
     // Entity -> MemberFormDTO
     private MemberFormDTO entityToDto(Member member) {
