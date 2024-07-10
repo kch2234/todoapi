@@ -1,17 +1,11 @@
 package com.cicd.todoapi.service;
 
 import com.cicd.todoapi.domain.Todo;
-import com.cicd.todoapi.dto.PageRequestDTO;
-import com.cicd.todoapi.dto.PageResponseDTO;
 import com.cicd.todoapi.dto.TodoDTO;
 import com.cicd.todoapi.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +45,7 @@ public class TodoServiceImpl implements TodoService{
     public void modify(TodoDTO todoDTO) {
         Todo findTodo = todoRepository.findById(todoDTO.getTno()).orElseThrow();
         findTodo.changeTitle(todoDTO.getTitle());
-        findTodo.changeContent(todoDTO.getContent());
+//        findTodo.changeContent(todoDTO.getContent());
         // ValueDTO, CategoryDTO 추가
         findTodo.changePriority(todoDTO.getPriority());
         findTodo.changeComplete(todoDTO.isComplete());
@@ -70,28 +64,12 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public PageResponseDTO<TodoDTO> list(PageRequestDTO pageRequestDTO) {
-        Pageable pageable = PageRequest.of(
-                pageRequestDTO.getPage() - 1, // 요청한페이지번호
-                pageRequestDTO.getSize(), // 한페이지에보여줄 글개수
-                Sort.by("tno").descending()); // tno 역순 정렬
-        Page<Todo> all = todoRepository.findAll(pageable);
+    public List<TodoDTO> list() {
+        List<Todo> all = todoRepository.findAll();
         log.info("all : {}", all);
-        // 글 목록
-            /*List<Todo> content = all.getContent();
-            List<TodoDTO> list = new ArrayList<>();
-            for(int i = 0; i < content.size(); i++) {
-            Todo todo = content.get(i);
-            TodoDTO dto = modelMapper.map(todo, TodoDTO.class);
-            list.add(dto);
-            }*/
-        List<TodoDTO> list = all.getContent().stream()
+        List<TodoDTO> list = all.stream()
                 .map(todo -> modelMapper.map(todo, TodoDTO.class))
                 .collect(Collectors.toList());
-        // 전체 글 개수
-        long totalCount = all.getTotalElements();
-        PageResponseDTO<TodoDTO> responseDTO = new PageResponseDTO<>(list,
-                pageRequestDTO, totalCount);
-        return responseDTO;
+        return list;
     }
 }

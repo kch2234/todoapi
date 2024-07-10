@@ -1,8 +1,8 @@
 package com.cicd.todoapi.service;
 
-import com.cicd.todoapi.dto.PageRequestDTO;
-import com.cicd.todoapi.dto.PageResponseDTO;
 import com.cicd.todoapi.dto.TodoDTO;
+
+import java.util.List;
 
 public interface TodoService {
     // 할일 등록(저장) 기능
@@ -15,6 +15,9 @@ public interface TodoService {
     void remove(Long tno);
 
     // 목록 조회
-    PageResponseDTO<TodoDTO> list(PageRequestDTO pageRequestDTO);
+    List<TodoDTO> list();
+
+    // 목록 조회 + 페이징처리
+    //PageResponseDTO<TodoDTO> list(PageRequestDTO pageRequestDTO);
 
 }

@@ -1,5 +1,6 @@
 package com.cicd.todoapi.domain;
 
+import jdk.jfr.Name;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,8 +19,9 @@ public class Todo {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;  // 작성자
 
+    @Column(nullable = false) // null 허용하지 않음
     private String title;   // 할일이름
-    private String content; // 할일내용
+//    private String content; // 할일내용
     private LocalDate dueDate;  // 할일 일정 날짜
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,9 +39,9 @@ public class Todo {
     public void changeTitle(String title) {
         this.title = title;
     }
-    public void changeContent(String content) {
+/*    public void changeContent(String content) {
         this.content = content;
-    }
+    }*/
     public void changeDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }

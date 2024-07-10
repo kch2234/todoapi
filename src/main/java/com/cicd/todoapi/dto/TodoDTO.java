@@ -23,7 +23,7 @@ public class TodoDTO {
     // 날짜를 화면에서 쉽게 처리하도록 JsonFormat 이용 -> 날짜 패턴 지정
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
-    private String content;
+//    private String content;
     private Value value;
     private Category category;
     private String priority;
@@ -36,7 +36,7 @@ public class TodoDTO {
                 .member(member)
                 .title(title)
                 .dueDate(dueDate)
-                .content(content)
+//                .content(content)
                 .value(value)
                 .category(category)
                 .priority(priority)

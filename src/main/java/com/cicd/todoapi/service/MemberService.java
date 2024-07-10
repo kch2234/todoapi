@@ -10,4 +10,5 @@ public interface MemberService {
     MemberFormDTO getMember(String email);
     void modifyMember(MemberModifyDTO memberModifyDTO);
 
+    MemberFormDTO findMemberByEmail(String email);
 }

@@ -76,6 +76,15 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.save(member);
     }
 
+    @Override
+    public MemberFormDTO findMemberByEmail(String email) {
+        log.info("********** MemberServiceImpl findMemberByEmail - email : {}", email);
+        Member member = memberRepository.getMemberByEmail(email);
+        log.info("********** MemberServiceImpl findMemberByEmail - member : {}", member);
+        MemberFormDTO memberFormDTO = entityToDto(member);
+        return memberFormDTO;
+    }
+
     // 내부에서만 사용할 메서드 -> private 으로 지정
     // Entity -> MemberFormDTO
     private MemberFormDTO entityToDto(Member member) {
@@ -90,7 +99,10 @@ public class MemberServiceImpl implements MemberService{
     }
 
     // MemberFormDTO -> Entity
-    private Member dtoToEntity(MemberFormDTO memberFormDTO) {
+
+    // 로그인 email 받아서 TodoController에서 사용 하기 위해
+    // todoDTO.SetMember에 저장하기 위해 public으로 변경
+    public Member dtoToEntity(MemberFormDTO memberFormDTO) {
         Member member = Member.builder()
                 .id(memberFormDTO.getId())
                 .email(memberFormDTO.getEmail())
