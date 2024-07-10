@@ -55,7 +55,6 @@ class TodoRepositoryTest {
             Todo todo = Todo.builder()
                     .member(member)
                     .title("Todo " + i)
-                    .content("Content " + i)
                     .dueDate(LocalDate.of(2024, 12, 31))
                     .value(value)
                     .category(category)
