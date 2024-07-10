@@ -56,19 +56,4 @@ public class MemberController {
     }
     return res;
   }
-
-  @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-  @GetMapping("/getMember")
-  public MemberFormDTO getMember(Authentication authentication) {
-    if (authentication == null || !authentication.isAuthenticated()) {
-      throw new IllegalStateException("User not authenticated");
-    }
-
-    String email = authentication.getName();
-    log.info("***** MemberController /getMember - email : {}", email);
-
-    MemberFormDTO result = memberService.getMember(email);
-
-    return result;
-  }
 }
