@@ -3,6 +3,7 @@ package com.cicd.todoapi.service;
 import com.cicd.todoapi.domain.Member;
 import com.cicd.todoapi.domain.Role;
 import com.cicd.todoapi.dto.MemberFormDTO;
+import com.cicd.todoapi.dto.MemberModifyDTO;
 import com.cicd.todoapi.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +59,21 @@ public class MemberServiceImpl implements MemberService{
     public MemberFormDTO getMember(String email) {
         Member result = memberRepository.getMemberByEmail(email);
         return entityToDto(result);
+    }
+
+    @Override
+    public void modifyMember(MemberModifyDTO memberModifyDTO) {
+        Member member = memberRepository.getMemberByEmail(memberModifyDTO.getEmail());
+        log.info("***** MemberServiceImpl modifyMember - member(email) : {}", member);
+
+        if (memberModifyDTO.getNickname() != null) {
+            member.changeNickname(memberModifyDTO.getNickname());
+        }
+        if (memberModifyDTO.getPassword() != null) {
+            member.changePassword(encoder.encode(memberModifyDTO.getPassword()));
+        }
+        log.info("***** MemberServiceImpl modifyMember - member : {}", member);
+        memberRepository.save(member);
     }
 
     // 내부에서만 사용할 메서드 -> private 으로 지정

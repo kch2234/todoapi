@@ -14,7 +14,7 @@ import java.util.Map;
 @Slf4j
 public class APIRefreshController {
 
-    @RequestMapping("/api/member/refresh")
+    @RequestMapping("/refresh")
     public Map<String, Object> refresh(@RequestHeader("Authorization") String authHeader, String refreshToken){
 
         // 헤더 Authorization -> AccessToken

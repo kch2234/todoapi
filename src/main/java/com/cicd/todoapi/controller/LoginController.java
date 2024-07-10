@@ -1,6 +1,7 @@
 package com.cicd.todoapi.controller;
 
 import com.cicd.todoapi.dto.MemberFormDTO;
+import com.cicd.todoapi.dto.MemberModifyDTO;
 import com.cicd.todoapi.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,10 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -32,7 +32,7 @@ public class LoginController {
     @GetMapping("/getMember")
     public MemberFormDTO getMember(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new IllegalStateException("User not authenticated");
+            throw new IllegalStateException("***** LoginController getMember - 인증되지 않은 사용자입니다");
         }
 
         String email = authentication.getName();
@@ -41,6 +41,18 @@ public class LoginController {
         MemberFormDTO result = memberService.getMember(email);
 
         return result;
+    }
+
+    // 프로필 수정
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
+    @PutMapping("/modifyMember")
+    public ResponseEntity<String> modifyMember(@RequestBody MemberModifyDTO memberModifyDTO) {
+        try {
+            memberService.modifyMember(memberModifyDTO);
+            return ResponseEntity.ok("Member modified successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to modify member: " + e.getMessage());
+        }
     }
 
 }
