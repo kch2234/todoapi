@@ -1,13 +1,11 @@
 package com.cicd.todoapi.repository;
 
-import com.cicd.todoapi.domain.Category;
-import com.cicd.todoapi.domain.Member;
-import com.cicd.todoapi.domain.Todo;
-import com.cicd.todoapi.domain.Value;
+import com.cicd.todoapi.domain.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import javax.persistence.EntityManager;
@@ -34,14 +32,23 @@ class TodoRepositoryTest {
 
     @Autowired
     private EntityManager em;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Test
     public void testInsert() {
         for (int i = 1; i <= 100; i++) {
-            Member member = Member.builder().id(1L).build();
+            Member member = Member.builder()
+                    .email("user" + i + "@test.com")
+                    .password(passwordEncoder.encode("1234"))
+                    .nickname("User" + i)
+                    .role(Role.USER)
+                    .build();
+            memberRepository.save(member);
             Value value = Value.builder().value("value" + i).member(member).build();
             Category category = Category.builder().category("category" + i).member(member).build();
 
-//            memberRepository.save(member);
+            memberRepository.save(member);
             valueRepository.save(value);
             categoryRepository.save(category);
 
