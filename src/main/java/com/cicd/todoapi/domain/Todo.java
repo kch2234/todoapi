@@ -19,16 +19,16 @@ public class Todo {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;  // 작성자
 
-    @Column(nullable = false) // null 허용하지 않음
+    @Column(nullable = false)
     private String title;   // 할일이름
 //    private String content; // 할일내용
     private LocalDate dueDate;  // 할일 일정 날짜
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "VALUE")
     private Value value;      // 할일 value
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "CATEGORY")
     private Category category;    // 할일 카테고리
 

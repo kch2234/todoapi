@@ -1,8 +1,12 @@
 package com.cicd.todoapi.service;
 
+import com.cicd.todoapi.domain.Member;
 import com.cicd.todoapi.domain.Todo;
+import com.cicd.todoapi.domain.Value;
 import com.cicd.todoapi.dto.TodoDTO;
+import com.cicd.todoapi.repository.MemberRepository;
 import com.cicd.todoapi.repository.TodoRepository;
+import com.cicd.todoapi.repository.ValueRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -19,15 +23,32 @@ import java.util.stream.Collectors;
 public class TodoServiceImpl implements TodoService{
 
     private final TodoRepository todoRepository;
+    private final ValueRepository valueRepository;
+    private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
 
     @Override
     public Long add(TodoDTO todoDTO) {
-        // todoDTO를 Entity로 변환해 Repository의 저장 기능 호출
-        /*Todo entity = todoDTO.toEntity();*/
-        // todoDTO를 Entity로 변환해 Repository의 저장 기능 호출
-        Todo entity = modelMapper.map(todoDTO, Todo.class);
-                                    // (타겟객체, 변환하고싶은클래스타입)
+        Member member = memberRepository.findById(todoDTO.getMember().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+
+        Value value = valueRepository.findById(todoDTO.getValue().getValue())
+                .orElseGet(() -> {
+                    Value newValue = Value.builder()
+                            .value(todoDTO.getValue().getValue())
+                            .member(member)
+                            .build();
+                    return valueRepository.save(newValue);
+                });
+        Todo entity = Todo.builder()
+                .member(member)
+                .title(todoDTO.getTitle())
+                .dueDate(todoDTO.getDueDate())
+                .value(value)
+                .category(todoDTO.getCategory())
+                .priority(todoDTO.getPriority())
+                .complete(todoDTO.isComplete())
+                .build();
         Todo savedEntity = todoRepository.save(entity);
         return savedEntity.getTno();
     }
@@ -44,9 +65,18 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public void modify(TodoDTO todoDTO) {
         Todo findTodo = todoRepository.findById(todoDTO.getTno()).orElseThrow();
+        Value value = valueRepository.findById(todoDTO.getValue().getValue())
+                .orElseGet(() -> {
+                    Value newValue = Value.builder()
+                            .value(todoDTO.getValue().getValue())
+                            .member(findTodo.getMember())
+                            .build();
+                    return valueRepository.save(newValue);
+                });
+
         findTodo.changeTitle(todoDTO.getTitle());
-//        findTodo.changeContent(todoDTO.getContent());
-        // ValueDTO, CategoryDTO 추가
+        findTodo.changeValue(value);
+        findTodo.changeCategory(todoDTO.getCategory());
         findTodo.changePriority(todoDTO.getPriority());
         findTodo.changeComplete(todoDTO.isComplete());
         findTodo.changeDueDate(todoDTO.getDueDate());
