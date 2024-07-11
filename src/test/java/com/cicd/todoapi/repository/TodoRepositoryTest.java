@@ -11,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,19 +38,13 @@ class TodoRepositoryTest {
 
     @Test
     public void testInsert() {
-        for (int i = 1; i <= 100; i++) {
-            Member member = Member.builder()
-                    .email("user" + i + "@test.com")
-                    .password(passwordEncoder.encode("1234"))
-                    .nickname("User" + i)
-                    .role(Role.USER)
-                    .build();
-            memberRepository.save(member);
-            Value value = Value.builder().value("value" + i).member(member).build();
-            Category category = Category.builder().category("category" + i).member(member).build();
+        for (int i = 1; i <= 5; i++) {
+            Member member = memberRepository.findById(1L).orElseThrow();
 
-            memberRepository.save(member);
+            Value value = Value.builder().value("value" + i).member(member).build();
             valueRepository.save(value);
+
+            Category category = Category.builder().category("category" + i).member(member).build();
             categoryRepository.save(category);
 
             Todo todo = Todo.builder()

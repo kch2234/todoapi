@@ -24,7 +24,6 @@ class TodoServiceImplTest {
         TodoDTO todoDTO = TodoDTO.builder()
                 .title("서비스 테스트")
                 .member(Member.builder().email("user01@test.com").build())
-                .content("서비스 테스트 내용")
                 .dueDate(LocalDate.of(2024, 5, 5))
                 .build();
         log.info("todoDTO : {}", todoDTO);
