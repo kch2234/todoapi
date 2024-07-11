@@ -32,7 +32,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         log.info("************** JWTCheckFilter - shouldNotFilter : requestURI : {}", requestURI);
 
         // 필터 체크 제외 경로
-        return requestURI.startsWith("/signup") || requestURI.startsWith("/login") || requestURI.startsWith("/member/");
+        return requestURI.startsWith("/signup") || requestURI.startsWith("/login") || requestURI.startsWith("/member/") || requestURI.startsWith("/refresh");
     }
 
     // 필터링 로직 작성 (추상메서드)
