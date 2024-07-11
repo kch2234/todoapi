@@ -24,14 +24,14 @@ public class TodoDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
 //    private String content;
-    private Value value;
-    private Category category;
+    private ValueDTO value;
+    private CategoryDTO category;
     private String priority;
     private boolean complete;
 
     // 변환 기능 추가
     // Entity -> DTO
-    public Todo toEntity() {
+    /*public Todo toEntity() {
         Todo todo = Todo.builder()
                 .member(member)
                 .title(title)
@@ -43,5 +43,5 @@ public class TodoDTO {
                 .complete(complete)
                 .build();
         return todo;
-    }
+    }*/
 }

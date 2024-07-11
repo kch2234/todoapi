@@ -1,9 +1,11 @@
 package com.cicd.todoapi.service;
 
+import com.cicd.todoapi.domain.Category;
 import com.cicd.todoapi.domain.Member;
 import com.cicd.todoapi.domain.Todo;
 import com.cicd.todoapi.domain.Value;
 import com.cicd.todoapi.dto.TodoDTO;
+import com.cicd.todoapi.repository.CategoryRepository;
 import com.cicd.todoapi.repository.MemberRepository;
 import com.cicd.todoapi.repository.TodoRepository;
 import com.cicd.todoapi.repository.ValueRepository;
@@ -24,6 +26,7 @@ public class TodoServiceImpl implements TodoService{
 
     private final TodoRepository todoRepository;
     private final ValueRepository valueRepository;
+    private final CategoryRepository categoryRepository;
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
 
@@ -32,7 +35,7 @@ public class TodoServiceImpl implements TodoService{
         Member member = memberRepository.findById(todoDTO.getMember().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
-        Value value = valueRepository.findById(todoDTO.getValue().getValue())
+        Value value = valueRepository.findById(todoDTO.getValue().getVid())
                 .orElseGet(() -> {
                     Value newValue = Value.builder()
                             .value(todoDTO.getValue().getValue())
@@ -40,12 +43,20 @@ public class TodoServiceImpl implements TodoService{
                             .build();
                     return valueRepository.save(newValue);
                 });
+        Category category = categoryRepository.findById(todoDTO.getCategory().getCid())
+                .orElseGet(() -> {
+                    Category newCategory = Category.builder()
+                            .category(todoDTO.getCategory().getCategory())
+                            .member(member)
+                            .build();
+                    return categoryRepository.save(newCategory);
+                });
         Todo entity = Todo.builder()
                 .member(member)
                 .title(todoDTO.getTitle())
                 .dueDate(todoDTO.getDueDate())
                 .value(value)
-                .category(todoDTO.getCategory())
+                .category(category)
                 .priority(todoDTO.getPriority())
                 .complete(todoDTO.isComplete())
                 .build();
@@ -65,7 +76,7 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public void modify(TodoDTO todoDTO) {
         Todo findTodo = todoRepository.findById(todoDTO.getTno()).orElseThrow();
-        Value value = valueRepository.findById(todoDTO.getValue().getValue())
+        Value value = valueRepository.findById(todoDTO.getValue().getVid())
                 .orElseGet(() -> {
                     Value newValue = Value.builder()
                             .value(todoDTO.getValue().getValue())
@@ -73,10 +84,17 @@ public class TodoServiceImpl implements TodoService{
                             .build();
                     return valueRepository.save(newValue);
                 });
-
+        Category category = categoryRepository.findById(todoDTO.getCategory().getCid())
+                .orElseGet(() -> {
+                    Category newCategory = Category.builder()
+                            .category(todoDTO.getCategory().getCategory())
+                            .member(findTodo.getMember())
+                            .build();
+                    return categoryRepository.save(newCategory);
+                });
         findTodo.changeTitle(todoDTO.getTitle());
         findTodo.changeValue(value);
-        findTodo.changeCategory(todoDTO.getCategory());
+        findTodo.changeCategory(category);
         findTodo.changePriority(todoDTO.getPriority());
         findTodo.changeComplete(todoDTO.isComplete());
         findTodo.changeDueDate(todoDTO.getDueDate());
