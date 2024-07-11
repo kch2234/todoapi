@@ -24,11 +24,11 @@ public class Todo {
 //    private String content; // 할일내용
     private LocalDate dueDate;  // 할일 일정 날짜
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VALUE")
     private Value value;      // 할일 value
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY")
     private Category category;    // 할일 카테고리
 

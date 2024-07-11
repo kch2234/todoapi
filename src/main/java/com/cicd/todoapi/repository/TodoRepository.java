@@ -10,5 +10,5 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     // 카테고리 별 조회
     @Query("select t from Todo t where t.category = :category")
-    List<Todo> findByCategory(String category);
+    List<Todo> findByCategory(String category, String memberEmail);
 }

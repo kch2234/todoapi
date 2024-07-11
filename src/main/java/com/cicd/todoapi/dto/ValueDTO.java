@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ValueDTO {
-    private Long vid;
-    private String value;
+    private Long vno;
+    private String valueString;
 }

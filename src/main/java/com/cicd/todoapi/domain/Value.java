@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@ToString
+@ToString(exclude = "member")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Value {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long vid;
-    private String value;
+    private Long vno;
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+    private String valueString;
 }

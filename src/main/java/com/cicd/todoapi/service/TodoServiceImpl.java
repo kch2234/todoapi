@@ -35,18 +35,18 @@ public class TodoServiceImpl implements TodoService{
         Member member = memberRepository.findById(todoDTO.getMember().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
-        Value value = valueRepository.findById(todoDTO.getValue().getVid())
+        Value value = valueRepository.findById(todoDTO.getValue().getVno())
                 .orElseGet(() -> {
                     Value newValue = Value.builder()
-                            .value(todoDTO.getValue().getValue())
+                            .valueString(todoDTO.getValue().getValueString())
                             .member(member)
                             .build();
                     return valueRepository.save(newValue);
                 });
-        Category category = categoryRepository.findById(todoDTO.getCategory().getCid())
+        Category category = categoryRepository.findById(todoDTO.getCategory().getCno())
                 .orElseGet(() -> {
                     Category newCategory = Category.builder()
-                            .category(todoDTO.getCategory().getCategory())
+                            .categoryName(todoDTO.getCategory().getCategoryName())
                             .member(member)
                             .build();
                     return categoryRepository.save(newCategory);
@@ -76,18 +76,18 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public void modify(TodoDTO todoDTO) {
         Todo findTodo = todoRepository.findById(todoDTO.getTno()).orElseThrow();
-        Value value = valueRepository.findById(todoDTO.getValue().getVid())
+        Value value = valueRepository.findById(todoDTO.getValue().getVno())
                 .orElseGet(() -> {
                     Value newValue = Value.builder()
-                            .value(todoDTO.getValue().getValue())
+                            .valueString(todoDTO.getValue().getValueString())
                             .member(findTodo.getMember())
                             .build();
                     return valueRepository.save(newValue);
                 });
-        Category category = categoryRepository.findById(todoDTO.getCategory().getCid())
+        Category category = categoryRepository.findById(todoDTO.getCategory().getCno())
                 .orElseGet(() -> {
                     Category newCategory = Category.builder()
-                            .category(todoDTO.getCategory().getCategory())
+                            .categoryName(todoDTO.getCategory().getCategoryName())
                             .member(findTodo.getMember())
                             .build();
                     return categoryRepository.save(newCategory);

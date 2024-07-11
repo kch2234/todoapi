@@ -45,6 +45,17 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
         String authValue = request.getHeader("Authorization");
         log.info("********* doFilterInternal - authValue : {}", authValue);
+
+        if (authValue == null || !authValue.startsWith("Bearer ")) {
+            log.error("*********** JWTCheckFilter error: Missing or malformed Authorization header");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            PrintWriter writer = response.getWriter();
+            writer.println("{\"error\":\"ERROR_ACCESS_TOKEN\"}");
+            writer.close();
+            return;
+        }
+
         // Bearer XxxxxxxxaccessToken값
         try {
             String accessToken = authValue.substring(7);
@@ -64,7 +75,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             // 시큐리티 인증 추가 : JWT와 SpringSecurity 로그인상태 호환되도록 처리
             UsernamePasswordAuthenticationToken authenticationToken
                     = new UsernamePasswordAuthenticationToken(
-                            userDetail, password, userDetail.getAuthorities());
+                    userDetail, password, userDetail.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
             filterChain.doFilter(request, response); // 다음필터 이동해라~

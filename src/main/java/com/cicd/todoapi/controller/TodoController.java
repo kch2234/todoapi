@@ -71,13 +71,13 @@ public class TodoController {
         return Map.of("Result", "SUCCESS");
     }
 
-    // TodoList 카테고리 별 조회
+    /* TodoList 카테고리 별 조회
     @GetMapping("/list/{category}")
     public List<TodoDTO> listByCategory(@PathVariable("category") String category) {
         log.info("******* TodoController GET /list/{category} - category : {}", category);
         List<TodoDTO> list = categoryService.listByCategory(category);
         return list;
-    }
+    }*/
 /*
     // 멤버아이디로 해당되는 카테고리들 조회
     @GetMapping("/categories")

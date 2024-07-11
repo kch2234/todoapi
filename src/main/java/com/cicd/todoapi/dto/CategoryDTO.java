@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryDTO {
-    private Long cid;
-    private String category;
+    private Long cno;
+    private String categoryName;
 }
