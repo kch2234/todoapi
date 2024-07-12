@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -24,6 +25,16 @@ public class CategoryServiceImpl implements CategoryService{
     private final TodoRepository todoRepository;
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
+
+    @Override
+    public List<CategoryDTO> categories(Long findMember) {
+        List<Category> categories = categoryRepository.findMemberIdByCategory(findMember);
+        log.info("categories: {}", categories);
+        List<CategoryDTO> collect = categories.stream()
+                .map(category -> modelMapper.map(category, CategoryDTO.class))
+                .collect(Collectors.toList());
+        return collect;
+    }
 
     @Override
     public Long addCategory(CategoryDTO categoryDTO, String memberEmail) {
@@ -63,10 +74,5 @@ public class CategoryServiceImpl implements CategoryService{
         }else {
             log.info("삭제 실패.....");
         }
-    }
-
-    @Override
-    public List<CategoryDTO> listCategory(String categoryName, String memberEmail) {
-        return null;
     }
 }

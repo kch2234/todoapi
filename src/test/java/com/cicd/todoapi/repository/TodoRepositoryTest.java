@@ -11,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,10 +42,10 @@ class TodoRepositoryTest {
         for (int i = 1; i <= 5; i++) {
             Member member = memberRepository.findById(1L).orElseThrow();
 
-            Value value = Value.builder().value("value" + i).member(member).build();
+            Value value = Value.builder().valueString("value" + i).member(member).build();
             valueRepository.save(value);
 
-            Category category = Category.builder().category("category" + i).member(member).build();
+            Category category = Category.builder().categoryName("category" + i).member(member).build();
             categoryRepository.save(category);
 
             Todo todo = Todo.builder()
@@ -98,5 +99,16 @@ class TodoRepositoryTest {
         // deleteById 사용시 코드 간단 -> 예외처리 고정됨
         todoRepository.deleteById(tno); -> select + delete 두개 실행
         */
+    }
+
+    // 투두 리스트 조회
+    @Test
+    public void listTest() {
+        Long memberId = 1L;
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        log.info("member: {}", member);
+        // memberId로 투두 리스트 조회
+        List<Todo> todoList = todoRepository.findAllByMemberId(memberId);
+        log.info("todoList: {}", todoList);
     }
 }

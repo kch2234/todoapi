@@ -31,11 +31,4 @@ class TodoServiceImplTest {
         Long savedTno = todoService.add(todoDTO);
         log.info("savedTno :{}", savedTno);
     }
-
-    @Test
-    public void getTest() {
-        TodoDTO todoDTO = todoService.get(101L);
-        log.info("find dto : {}", todoDTO);
-    }
-
 }

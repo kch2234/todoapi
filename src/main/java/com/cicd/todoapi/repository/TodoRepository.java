@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
-    // 카테고리 별 조회
-    @Query("select t from Todo t where t.category = :category")
-    List<Todo> findByCategory(String category, String memberEmail);
+    @Query("SELECT t FROM Todo t WHERE t.member.id = :memberId")
+    List<Todo> findAllByMemberId(Long memberId);
+
+    @Query("SELECT t FROM Todo t WHERE t.member.id = :memberId AND t.category.categoryName = :categoryName")
+    List<Todo> findAllByMemberIdAndCategoryName(Long memberId, String categoryName);
 }
