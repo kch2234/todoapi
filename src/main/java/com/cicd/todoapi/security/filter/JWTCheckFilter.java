@@ -67,9 +67,10 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             Long userId = id.longValue();
             String email = (String) claims.get("email");
             String password = (String) claims.get("password");
+            String nickname = (String) claims.get("nickname");
             Role role = Role.valueOf((String) claims.get("role"));
 
-            MemberUserDetail userDetail = new MemberUserDetail(userId, email, password, role);
+            MemberUserDetail userDetail = new MemberUserDetail(userId, email, password, nickname, role);
             log.info("******** doFileterInternal - userDetail : {}", userDetail);
 
             // 시큐리티 인증 추가 : JWT와 SpringSecurity 로그인상태 호환되도록 처리

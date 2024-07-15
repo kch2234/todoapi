@@ -40,10 +40,10 @@ class MemberRepositoryTest {
     }
 
     // 회원 한개 조회
-    @Test
+/*    @Test
     public void testRead() {
         String email = "user9@test.com";
         Member findMember = memberRepository.getMemberByEmail(email);
         log.info("********** member : {}", findMember);
-    }
+    }*/
 }

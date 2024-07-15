@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("***** CustomUserDetailsService/loadUserByUsername - username : {}", username);
         Member member = memberRepository.getMemberByEmail(username);
-        log.info("***** CustomUserDetailsService/loadUserByUsername - username : {}", member.getEmail());
+        log.info("***** CustomUserDetailsService/loadUserByUsername - username : {}", member.getNickname());
         if (member == null) { // 없는 사용자(email)일 경우 예외 발생
             throw new UsernameNotFoundException("****** CustomUserDetailsService - loadUserByUsername : Email(username) Not Found");
         }
@@ -33,6 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         MemberUserDetail userDetail = new MemberUserDetail(member.getId(),
                 member.getEmail(),
                 member.getPassword(),
+                member.getNickname(),
                 member.getRole());
 //    MemberUserDetail userDetail = modelMapper.map(member, MemberUserDetail.class);
 
