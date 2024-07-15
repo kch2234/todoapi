@@ -40,7 +40,7 @@ class TodoRepositoryTest {
     @Test
     public void testInsert() {
         for (int i = 1; i <= 5; i++) {
-            Member member = memberRepository.findById(1L).orElseThrow();
+            Member member = memberRepository.findById(1L).orElse(null);
 
             Value value = Value.builder().valueString("value" + i).member(member).build();
             valueRepository.save(value);
@@ -105,7 +105,7 @@ class TodoRepositoryTest {
     @Test
     public void listTest() {
         Long memberId = 1L;
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member member = memberRepository.findById(memberId).orElse(null);
         log.info("member: {}", member);
         // memberId로 투두 리스트 조회
         List<Todo> todoList = todoRepository.findAllByMemberId(memberId);

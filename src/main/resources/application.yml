@@ -1,9 +1,9 @@
 # DB setting
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/todo?useUnicode=true&characterEncoding=UTF-8&characterSetResult=UTF-8&useSSL=true
-    username: root
-    password: 1234
+    url: jdbc:mysql://ls-327224baba253ec8fc168adcdb1688a8be5f5647.clmym0ek09ts.ap-northeast-2.rds.amazonaws.com:3306/todo?useUnicode=true&characterEncoding=UTF-8&characterSetResult=UTF-8&useSSL=true
+    username: todoadmin
+    password: todopassword
 
   jpa:
     database: mysql
