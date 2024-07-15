@@ -34,7 +34,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 member.getEmail(),
                 member.getNickname(),
                 member.getPassword(),
-                member.getNickname(),
                 member.getRole());
 //    MemberUserDetail userDetail = modelMapper.map(member, MemberUserDetail.class);
 
