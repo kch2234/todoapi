@@ -32,7 +32,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         log.info("************** JWTCheckFilter - shouldNotFilter : requestURI : {}", requestURI);
 
         // 필터 체크 제외 경로
-        return requestURI.startsWith("/signup") || requestURI.startsWith("/login") || requestURI.startsWith("/member/") || requestURI.startsWith("/refresh");
+        return requestURI.startsWith("/signup") || requestURI.startsWith("/login") || requestURI.startsWith("/refresh") || requestURI.startsWith("/member/");
     }
 
     // 필터링 로직 작성 (추상메서드)
@@ -66,10 +66,11 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             Integer id = (Integer) claims.get("id");
             Long userId = id.longValue();
             String email = (String) claims.get("email");
+            String nickname = (String) claims.get("nickname");
             String password = (String) claims.get("password");
             Role role = Role.valueOf((String) claims.get("role"));
 
-            MemberUserDetail userDetail = new MemberUserDetail(userId, email, password, role);
+            MemberUserDetail userDetail = new MemberUserDetail(userId, email, nickname, password, role);
             log.info("******** doFileterInternal - userDetail : {}", userDetail);
 
             // 시큐리티 인증 추가 : JWT와 SpringSecurity 로그인상태 호환되도록 처리
