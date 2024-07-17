@@ -42,7 +42,7 @@ public class TodoServiceImpl implements TodoService{
         Value value = null;
         if (todoDTO.getValue() != null && todoDTO.getValue().getVno() != null) {
             value = valueRepository.findById(todoDTO.getValue().getVno())
-                    .orElse(Value.builder().valueString(todoDTO.getValue().getValueString()).member(member).build());
+                    .orElse(null);
         } else if (todoDTO.getValue() != null && todoDTO.getValue().getValueString() != null) {
             value = Value.builder().valueString(todoDTO.getValue().getValueString()).member(member).build();
             valueRepository.save(value);
@@ -51,7 +51,7 @@ public class TodoServiceImpl implements TodoService{
         Category category = null;
         if (todoDTO.getCategory() != null && todoDTO.getCategory().getCno() != null) {
             category = categoryRepository.findById(todoDTO.getCategory().getCno())
-                    .orElse(Category.builder().categoryName(todoDTO.getCategory().getCategoryName()).member(member).build());
+                    .orElse(null);
         } else if (todoDTO.getCategory() != null && todoDTO.getCategory().getCategoryName() != null) {
             category = Category.builder().categoryName(todoDTO.getCategory().getCategoryName()).member(member).build();
             categoryRepository.save(category);
@@ -108,9 +108,9 @@ public class TodoServiceImpl implements TodoService{
         }
 
         findTodo.changeTitle(todoDTO.getTitle());
-        findTodo.changeValue(value);
-        findTodo.changeCategory(category);
-        findTodo.changePriority(todoDTO.getPriority());
+        findTodo.changeValue(value != null ? value : findTodo.getValue());
+        findTodo.changeCategory(category != null ? category : findTodo.getCategory());
+        findTodo.changePriority(todoDTO.getPriority() != null ? todoDTO.getPriority() : null);
         findTodo.changeComplete(todoDTO.isComplete());
         findTodo.changeDueDate(todoDTO.getDueDate());
     }

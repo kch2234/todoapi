@@ -1,12 +1,15 @@
 package com.cicd.todoapi.dto;
 
 import com.cicd.todoapi.domain.Member;
+import com.cicd.todoapi.domain.Priority;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDate;
 
 @Data
@@ -22,7 +25,7 @@ public class TodoDTO {
     private LocalDate dueDate;
     private ValueDTO value;
     private CategoryDTO category;
-    private String priority;
+    private Priority priority;
     private boolean complete;
 
     // 변환 기능 추가

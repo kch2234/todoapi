@@ -32,7 +32,8 @@ public class Todo {
     @JoinColumn(name = "CATEGORY")
     private Category category;    // 할일 카테고리
 
-    private String priority;    // 할일 중요도
+    @Enumerated(EnumType.STRING)
+    private Priority priority;    // 할일 중요도
     private boolean complete;   // 할일 완료 여부
 
     // 수정 가능한 필드를 위한 수정 메서드 추가
@@ -51,7 +52,7 @@ public class Todo {
     public void changeCategory(Category category) {
         this.category = category;
     }
-    public void changePriority(String priority) {
+    public void changePriority(Priority priority) {
         this.priority = priority;
     }
     public void changeComplete(boolean complete) {
