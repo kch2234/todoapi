@@ -8,6 +8,11 @@ plugins {
 group = 'com.cicd'
 version = '0.0.1-SNAPSHOT'
 
+war {
+	archiveBaseName = 'gensk'
+	archiveFileName = 'gensk.war'
+}
+
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
