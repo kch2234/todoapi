@@ -8,9 +8,9 @@ plugins {
 group = 'com.cicd'
 version = '0.0.1-SNAPSHOT'
 
-war {
-	archiveBaseName = 'gensk'
-	archiveFileName = 'gensk.war'
+bootJar {
+	archiveBaseName = 'todoapi'
+	archiveFileName = 'todoapi.jar'
 }
 
 java {
