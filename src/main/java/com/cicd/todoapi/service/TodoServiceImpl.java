@@ -46,7 +46,9 @@ public class TodoServiceImpl implements TodoService{
         } else if (todoDTO.getValue() != null && todoDTO.getValue().getValueString() != null) {
             value = Value.builder().valueString(todoDTO.getValue().getValueString()).member(member).build();
             valueRepository.save(value);
-        }*/
+        }
+        */
+        /*
         if (todoDTO.getValue() != null && todoDTO.getValue().getValueString() != null) {
             // 같은 ValueString이 존재하는지 확인
             List<Value> values = valueRepository.findByValueString(todoDTO.getValue().getValueString());
@@ -61,6 +63,16 @@ public class TodoServiceImpl implements TodoService{
                 log.info("value : {}", value);
                 value = valueRepository.save(value);
                 log.info("valueRepository.save(value) : {}", value);
+            }
+        }
+        */
+        if (todoDTO.getValue() != null && todoDTO.getValue().getValueString() != null) {
+            // 먼저 같은 ValueString이 존재하는지 확인
+            value = valueRepository.findByValueString(todoDTO.getValue().getValueString());
+            if (value == null) {
+                // 존재하지 않으면 새로 생성
+                value = Value.builder().valueString(todoDTO.getValue().getValueString()).member(member).build();
+                valueRepository.save(value);
             }
         }
 
@@ -108,13 +120,22 @@ public class TodoServiceImpl implements TodoService{
         Todo findTodo = todoRepository.findById(todoDTO.getTno()).orElseThrow();
 
         Value value = null;
-        if (todoDTO.getValue() != null && todoDTO.getValue().getVno() != null) {
+        /*if (todoDTO.getValue() != null && todoDTO.getValue().getVno() != null) {
             value = valueRepository.findById(todoDTO.getValue().getVno())
                     .orElseThrow(() -> new IllegalArgumentException("Value not found"));
             value.setValueString(todoDTO.getValue().getValueString()); // Update valueString
         } else if (todoDTO.getValue() != null && todoDTO.getValue().getValueString() != null) {
             value = Value.builder().valueString(todoDTO.getValue().getValueString()).member(findTodo.getMember()).build();
             valueRepository.save(value);
+        }*/
+        if (todoDTO.getValue() != null && todoDTO.getValue().getValueString() != null) {
+            // 먼저 같은 ValueString이 존재하는지 확인
+            value = valueRepository.findByValueString(todoDTO.getValue().getValueString());
+            if (value == null) {
+                // 존재하지 않으면 새로 생성
+                value = Value.builder().valueString(todoDTO.getValue().getValueString()).member(findTodo.getMember()).build();
+                valueRepository.save(value);
+            }
         }
 
         Category category = null;
