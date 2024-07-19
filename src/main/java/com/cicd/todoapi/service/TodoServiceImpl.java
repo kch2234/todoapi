@@ -40,18 +40,34 @@ public class TodoServiceImpl implements TodoService{
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
         Value value = null;
-        if (todoDTO.getValue() != null && todoDTO.getValue().getVno() != null) {
+/*        if (todoDTO.getValue() != null && todoDTO.getValue().getVno() != null) {
             value = valueRepository.findById(todoDTO.getValue().getVno())
-                    .orElse(null);
+                    .orElse(Value.builder().valueString(todoDTO.getValue().getValueString()).member(member).build());
         } else if (todoDTO.getValue() != null && todoDTO.getValue().getValueString() != null) {
             value = Value.builder().valueString(todoDTO.getValue().getValueString()).member(member).build();
             valueRepository.save(value);
+        }*/
+        if (todoDTO.getValue() != null && todoDTO.getValue().getValueString() != null) {
+            // 같은 ValueString이 존재하는지 확인
+            List<Value> values = valueRepository.findByValueString(todoDTO.getValue().getValueString());
+            log.info("values : {}", values);
+            if (!values.isEmpty()) {
+                // 첫 번째 결과만 사용
+                value = values.get(0);
+                log.info("values.get(0) : {}", values.get(0));
+            } else {
+                // 존재하지 않으면 새로 생성
+                value = Value.builder().valueString(todoDTO.getValue().getValueString()).member(member).build();
+                log.info("value : {}", value);
+                value = valueRepository.save(value);
+                log.info("valueRepository.save(value) : {}", value);
+            }
         }
 
         Category category = null;
         if (todoDTO.getCategory() != null && todoDTO.getCategory().getCno() != null) {
             category = categoryRepository.findById(todoDTO.getCategory().getCno())
-                    .orElse(null);
+                    .orElse(Category.builder().categoryName(todoDTO.getCategory().getCategoryName()).member(member).build());
         } else if (todoDTO.getCategory() != null && todoDTO.getCategory().getCategoryName() != null) {
             category = Category.builder().categoryName(todoDTO.getCategory().getCategoryName()).member(member).build();
             categoryRepository.save(category);
@@ -66,8 +82,10 @@ public class TodoServiceImpl implements TodoService{
                 .priority(todoDTO.getPriority())
                 .complete(todoDTO.isComplete())
                 .build();
+        log.info("Creating new Todo: {}", todo);
 
         Todo savedEntity = todoRepository.save(todo);
+        log.info("Saved Todo: {}", savedEntity);
 
         TodoDTO getDTO = TodoDTO.builder()
                 .tno(savedEntity.getTno())
@@ -78,6 +96,8 @@ public class TodoServiceImpl implements TodoService{
                 .priority(savedEntity.getPriority())
                 .complete(savedEntity.isComplete())
                 .build();
+
+        log.info("Returning TodoDTO with tno: {}", getDTO.getTno());
 
         return getDTO.getTno();
     }
