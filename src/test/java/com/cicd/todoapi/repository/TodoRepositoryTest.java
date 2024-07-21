@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
@@ -108,7 +109,7 @@ class TodoRepositoryTest {
         Member member = memberRepository.findById(memberId).orElse(null);
         log.info("member: {}", member);
         // memberId로 투두 리스트 조회
-        List<Todo> todoList = todoRepository.findAllByMemberId(memberId);
+        List<Todo> todoList = todoRepository.findAllByMemberId(memberId, Sort.by(Sort.Direction.DESC, "dueDate"));
         log.info("todoList: {}", todoList);
     }
 }

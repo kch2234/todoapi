@@ -14,9 +14,11 @@ import com.cicd.todoapi.repository.ValueRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -83,6 +85,10 @@ public class TodoServiceImpl implements TodoService{
         } else if (todoDTO.getCategory() != null && todoDTO.getCategory().getCategoryName() != null) {
             category = Category.builder().categoryName(todoDTO.getCategory().getCategoryName()).member(member).build();
             categoryRepository.save(category);
+        }
+
+        if (todoDTO.getDueDate() == null) {
+            todoDTO.setDueDate(LocalDate.now());
         }
 
         Todo todo = Todo.builder()
@@ -170,21 +176,28 @@ public class TodoServiceImpl implements TodoService{
     // 빈 카테고리 리스트 조회
     @Override
     public List<TodoDTO> list(Long findMember) {
-        /*List<Todo> all = todoRepository.findAll();
+/*        List<Todo> all = todoRepository.findAll();
         log.info("all : {}", all);
         List<TodoDTO> list = all.stream()
                 .map(todo -> modelMapper.map(todo, TodoDTO.class))
                 .collect(Collectors.toList());
-        return list;*/
+        return list;
         List<Todo> all = todoRepository.findAllByMemberId(findMember);
-//        if (!all.isEmpty()) {// all이 비어있지 않다면
+        if (!all.isEmpty()) {// all이 비어있지 않다면
             log.info("all : {}", all);
             List<TodoDTO> list = all.stream()
                     .map(todo -> modelMapper.map(todo, TodoDTO.class))
                     .collect(Collectors.toList());
             return list;
-//        }
-//        return null;
+        }
+        return null;*/
+        List<Todo> all = todoRepository.findAllByMemberId(findMember,
+                Sort.by(Sort.Direction.DESC, "dueDate"));
+        log.info("all : {}", all);
+        List<TodoDTO> list = all.stream()
+                .map(todo -> modelMapper.map(todo, TodoDTO.class))
+                .collect(Collectors.toList());
+        return list;
     }
 
     @Override
