@@ -192,7 +192,7 @@ public class TodoServiceImpl implements TodoService{
         }
         return null;*/
         List<Todo> all = todoRepository.findAllByMemberId(findMember,
-                Sort.by(Sort.Direction.DESC, "dueDate"));
+                Sort.by(Sort.Direction.DESC, "id"));
         log.info("all : {}", all);
         List<TodoDTO> list = all.stream()
                 .map(todo -> modelMapper.map(todo, TodoDTO.class))

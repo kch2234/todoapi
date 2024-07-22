@@ -109,7 +109,8 @@ class TodoRepositoryTest {
         Member member = memberRepository.findById(memberId).orElse(null);
         log.info("member: {}", member);
         // memberId로 투두 리스트 조회
-        List<Todo> todoList = todoRepository.findAllByMemberId(memberId, Sort.by(Sort.Direction.DESC, "dueDate"));
+        List<Todo> todoList = todoRepository.findAllByMemberId(memberId,
+                Sort.by(Sort.Direction.DESC, "id"));
         log.info("todoList: {}", todoList);
     }
 }
